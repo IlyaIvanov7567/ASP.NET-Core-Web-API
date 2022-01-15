@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
+using MetricsAgent.DAL;
+using MetricsAgent.Requests;
+using MetricsAgent.Responses;
+using MetricsAgent.Models;
+using System.Collections.Generic;
 
 namespace MetricsAgent.Controllers
 {
@@ -10,17 +13,43 @@ namespace MetricsAgent.Controllers
     public class CpuMetricsController : ControllerBase
     {
         private readonly ILogger<CpuMetricsController> _logger;
+        private readonly IRepository<CpuMetric> _repository;
 
-        public CpuMetricsController (ILogger<CpuMetricsController> logger)
+        public CpuMetricsController (ILogger<CpuMetricsController> logger, IRepository<CpuMetric> repository)
         {
             _logger = logger;
+            _repository = repository;
         }
         
-        [HttpPost("from/{fromTime}/to/{toTime}")]
-        public IActionResult PostMetricsFromAgent([FromBody] int agentId, [FromRoute] TimeSpan fromTime, [FromRoute] TimeSpan toTime)
+        [HttpPost("create")]
+        public IActionResult Create([FromBody] MetricCreateRequest<CpuMetric> request)
         {
-            _logger.LogInformation("AgentId: {0}; fromTime: {1}; toTime: {2}", agentId, fromTime, toTime);
+            _repository.Create(new CpuMetric
+            {
+                Time = request.Time,
+                Value = request.Value
+            });
+
+            _logger.LogInformation("Time: {0}; Value: {1}", request.Time, request.Value);
             return Ok();
+        }
+
+        [HttpGet("all")]
+        public IActionResult GetAll()
+        {
+            var metrics = _repository.GetAll();
+
+            var response = new AllMetricsResponse<CpuMetric>()
+            {
+                Metrics = new List<MetricDto<CpuMetric>>()
+            };
+
+            foreach (var metric in metrics)
+            {
+                response.Metrics.Add(new MetricDto<CpuMetric> { Time = metric.Time, Value = metric.Value, Id = metric.Id });
+            }
+
+            return Ok(response);
         }
     }
 }
