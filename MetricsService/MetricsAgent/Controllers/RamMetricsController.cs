@@ -10,12 +10,12 @@ namespace MetricsAgent.Controllers
 {
     [Route("api/metrics/ram")]
     [ApiController]
-    public class ramMetricsController : ControllerBase
+    public class RamMetricsController : ControllerBase
     {
-        private readonly ILogger<ramMetricsController> _logger;
+        private readonly ILogger<RamMetricsController> _logger;
         private readonly IRepository<RamMetric> _repository;
 
-        public ramMetricsController(ILogger<ramMetricsController> logger, IRepository<RamMetric> repository)
+        public RamMetricsController(ILogger<RamMetricsController> logger, IRepository<RamMetric> repository)
         {
             _logger = logger;
             _repository = repository;
