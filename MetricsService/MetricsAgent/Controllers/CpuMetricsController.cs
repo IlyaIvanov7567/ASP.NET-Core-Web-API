@@ -5,6 +5,7 @@ using MetricsAgent.Requests;
 using MetricsAgent.Responses;
 using MetricsAgent.Models;
 using System.Collections.Generic;
+using AutoMapper;
 
 namespace MetricsAgent.Controllers
 {
@@ -14,13 +15,15 @@ namespace MetricsAgent.Controllers
     {
         private readonly ILogger<CpuMetricsController> _logger;
         private readonly IRepository<CpuMetric> _repository;
+        private readonly IMapper _mapper;
 
-        public CpuMetricsController (ILogger<CpuMetricsController> logger, IRepository<CpuMetric> repository)
+        public CpuMetricsController(ILogger<CpuMetricsController> logger, IRepository<CpuMetric> repository, IMapper mapper)
         {
             _logger = logger;
             _repository = repository;
+            _mapper = mapper;
         }
-        
+
 
         [HttpPost("create")]
         public IActionResult Create([FromBody] MetricCreateRequest<CpuMetric> request)
@@ -48,7 +51,7 @@ namespace MetricsAgent.Controllers
 
             foreach (var metric in metrics)
             {
-                response.Metrics.Add(new MetricDto<CpuMetric> { Time = metric.Time, Value = metric.Value, Id = metric.Id });
+                response.Metrics.Add(_mapper.Map<MetricDto<CpuMetric>>(metric));
             }
 
             return Ok(response);

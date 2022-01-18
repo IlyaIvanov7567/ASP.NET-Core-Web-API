@@ -1,3 +1,4 @@
+using AutoMapper;
 using MetricsAgent.DAL;
 using MetricsAgent.Models;
 using Microsoft.AspNetCore.Builder;
@@ -40,6 +41,10 @@ namespace MetricsAgent
             services.AddSingleton<IRepository<HddMetric>, HddMetricsRepository>();
             services.AddSingleton<IRepository<NetworkMetric>, NetworkMetricsRepository>();
             services.AddSingleton<IRepository<RamMetric>, RamMetricsRepository>();
+            
+            var mapperConfiguration = new MapperConfiguration(mp => mp.AddProfile(new MapperProfile()));
+            var mapper = mapperConfiguration.CreateMapper();
+            services.AddSingleton(mapper);
         }
 
         private void ConfigureSqlLiteConnection(IServiceCollection services)
