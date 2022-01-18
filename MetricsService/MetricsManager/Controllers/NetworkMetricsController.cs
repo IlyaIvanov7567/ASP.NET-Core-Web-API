@@ -9,13 +9,13 @@ namespace MetricsManager.Controllers
     [ApiController]
     public class NetworkMetricsController : ControllerBase
     {
-
         private readonly ILogger<NetworkMetricsController> _logger;
 
         public NetworkMetricsController(ILogger<NetworkMetricsController> logger)
         {
             _logger = logger;
         }
+
 
         [HttpGet("agent/{agentId}/from/{fromTime}/to/{toTime}")]
         public IActionResult GetMetricsFromAgent([FromRoute] int agentId, [FromRoute] TimeSpan fromTime, [FromRoute] TimeSpan toTime)
@@ -24,12 +24,12 @@ namespace MetricsManager.Controllers
             return Ok();
         }
 
+
         [HttpGet("cluster/from/{fromTime}/to/{toTime}")]
         public IActionResult GetMetricsFromAllCluster([FromRoute] TimeSpan fromTime, [FromRoute] TimeSpan toTime)
         {
             _logger.LogInformation("fromTime: {0}; toTime: {1}", fromTime, toTime);
             return Ok();
         }
-
     }
 }

@@ -21,6 +21,7 @@ namespace MetricsAgent.Controllers
             _repository = repository;
         }
 
+
         [HttpPost("create")]
         public IActionResult Create([FromBody] MetricCreateRequest<RamMetric> request)
         {
@@ -33,6 +34,7 @@ namespace MetricsAgent.Controllers
             _logger.LogInformation("Time: {0}; Value: {1}", request.Time, request.Value);
             return Ok();
         }
+
 
         [HttpGet("all")]
         public IActionResult GetAll()

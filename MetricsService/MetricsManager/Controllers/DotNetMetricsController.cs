@@ -23,12 +23,12 @@ namespace MetricsManager.Controllers
             return Ok();
         }
 
+
         [HttpGet("cluster/from/{fromTime}/to/{toTime}")]
         public IActionResult GetMetricsFromAllCluster([FromRoute] TimeSpan fromTime, [FromRoute] TimeSpan toTime)
         {
             _logger.LogInformation("fromTime: {0}; toTime: {1}", fromTime, toTime);
             return Ok();
         }
-
     }
 }
