@@ -7,6 +7,8 @@ using Moq;
 using MetricsAgent.DAL;
 using MetricsAgent.Models;
 using MetricsAgent.Requests;
+using AutoMapper;
+using MetricsAgent;
 
 namespace MetricsAgentTests
 {
@@ -15,12 +17,15 @@ namespace MetricsAgentTests
         private HddMetricsController _controller;
         private Mock<ILogger<HddMetricsController>> _loggerMock;
         private Mock<IRepository<HddMetric>> _repositoryMock;
+        private Mock<IMapper> _mapper;
 
         public HddMetricsControllerUnitTests()
         {
             _loggerMock = new Mock<ILogger<HddMetricsController>>();
             _repositoryMock = new Mock<IRepository<HddMetric>>();
-            _controller = new HddMetricsController(_loggerMock.Object, _repositoryMock.Object);
+            _mapper = new Mock<IMapper>();
+
+            _controller = new HddMetricsController(_loggerMock.Object, _repositoryMock.Object, _mapper.Object);
         }
 
         [Fact]
@@ -31,7 +36,7 @@ namespace MetricsAgentTests
             _repositoryMock.Setup(repository => repository.Create(It.IsAny<HddMetric>())).Verifiable();
 
             // выполняем действие на контроллере
-            var result = _controller.Create(new MetricsAgent.Requests.MetricCreateRequest<HddMetric>
+            var result = _controller.Create(new MetricCreateRequest<HddMetric>
             {
                 Time = TimeSpan.FromSeconds(1),
                 Value = 50
@@ -40,7 +45,6 @@ namespace MetricsAgentTests
             // проверяем заглушку на то, что пока работал контроллер
             // действительно вызвался метод Create репозитория с нужным типом объекта в параметре
             _repositoryMock.Verify(repository => repository.Create(It.IsAny<HddMetric>()), Times.AtMostOnce());
-
         }
     }
 }

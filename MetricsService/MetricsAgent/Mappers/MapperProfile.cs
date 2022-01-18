@@ -8,11 +8,11 @@ namespace MetricsAgent
     {
         public MapperProfile()
         { 
-            CreateMap<CpuMetric, MetricDto<CpuMetric>>();
-            CreateMap<CpuMetric, MetricDto<DotNetMetric>>();
-            CreateMap<CpuMetric, MetricDto<HddMetric>>();
-            CreateMap<CpuMetric, MetricDto<NetworkMetric>>();
-            CreateMap<CpuMetric, MetricDto<RamMetric>>();
+            CreateMap<CpuMetric, MetricDto<CpuMetric>>().ReverseMap();
+            CreateMap<CpuMetric, MetricDto<DotNetMetric>>().ReverseMap();
+            CreateMap<CpuMetric, MetricDto<HddMetric>>().ReverseMap();
+            CreateMap<CpuMetric, MetricDto<NetworkMetric>>().ReverseMap();
+            CreateMap<CpuMetric, MetricDto<RamMetric>>().ReverseMap();
         }
     }
 }

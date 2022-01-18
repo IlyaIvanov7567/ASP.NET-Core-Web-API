@@ -7,6 +7,8 @@ using Moq;
 using MetricsAgent.DAL;
 using MetricsAgent.Models;
 using MetricsAgent.Requests;
+using AutoMapper;
+using MetricsAgent;
 
 namespace MetricsAgentTests
 {
@@ -15,12 +17,15 @@ namespace MetricsAgentTests
         private DotNetMetricsController _controller;
         private Mock<ILogger<DotNetMetricsController>> _loggerMock;
         private Mock<IRepository<DotNetMetric>> _repositoryMock;
+        private Mock<IMapper> _mapperMock;
 
         public DotNetMetricsControllerUnitTests()
         {
             _loggerMock = new Mock<ILogger<DotNetMetricsController>>();
             _repositoryMock = new Mock<IRepository<DotNetMetric>>();
-            _controller = new DotNetMetricsController(_loggerMock.Object, _repositoryMock.Object);
+            _mapperMock = new Mock<IMapper>();
+
+            _controller = new DotNetMetricsController(_loggerMock.Object, _repositoryMock.Object, _mapperMock.Object);
         }
 
         [Fact]
@@ -31,7 +36,7 @@ namespace MetricsAgentTests
             _repositoryMock.Setup(repository => repository.Create(It.IsAny<DotNetMetric>())).Verifiable();
 
             // выполняем действие на контроллере
-            var result = _controller.Create(new MetricsAgent.Requests.MetricCreateRequest<DotNetMetric>
+            var result = _controller.Create(new MetricCreateRequest<DotNetMetric>
             {
                 Time = TimeSpan.FromSeconds(1),
                 Value = 50
