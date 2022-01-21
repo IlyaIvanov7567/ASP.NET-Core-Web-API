@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Linq;
 using System.Threading.Tasks;
+using FluentMigrator.Runner;
 
 namespace MetricsAgent
 {
@@ -27,6 +28,8 @@ namespace MetricsAgent
 
         public IConfiguration Configuration { get; }
 
+        private const string ConnectionString = "Data Source=metrics.db;Version=3;Pooling=true;Max Pool Size=100;";
+        
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -35,7 +38,6 @@ namespace MetricsAgent
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "MetricsAgent", Version = "v1" });
             });
-            ConfigureSqlLiteConnection(services);
             services.AddSingleton<IRepository<CpuMetric>, CpuMetricsRepository>();
             services.AddSingleton<IRepository<DotNetMetric>, DotNetMetricsRepository>();
             services.AddSingleton<IRepository<HddMetric>, HddMetricsRepository>();
@@ -45,35 +47,21 @@ namespace MetricsAgent
             var mapperConfiguration = new MapperConfiguration(mp => mp.AddProfile(new MapperProfile()));
             var mapper = mapperConfiguration.CreateMapper();
             services.AddSingleton(mapper);
-        }
-
-        private void ConfigureSqlLiteConnection(IServiceCollection services)
-        {
-            const string connectionString = "Data Source=metrics.db;Version=3;Pooling=true;Max Pool Size=100;";
-            var connection = new SQLiteConnection(connectionString);
-            connection.Open();
-            PrepareSchema(connection);
-        }
-
-        private void PrepareSchema(SQLiteConnection connection)
-        {
-            using (var command = new SQLiteCommand(connection))
-            {
-                // задаем новый текст команды для выполнения
-                // удаляем таблицу с метриками если она существует в базе данных
-                command.CommandText = "DROP TABLE IF EXISTS cpumetrics";
-                // отправляем запрос в базу данных
-                command.ExecuteNonQuery();
-
-
-                command.CommandText = @"CREATE TABLE cpumetrics(id INTEGER PRIMARY KEY,
-                    value INT, time INT)";
-                command.ExecuteNonQuery();
-            }
+            
+            services.AddFluentMigratorCore()
+                .ConfigureRunner(rb => rb
+                    // добавляем поддержку SQLite 
+                    .AddSQLite()
+                    // устанавливаем строку подключения
+                    .WithGlobalConnectionString(ConnectionString)
+                    // подсказываем где искать классы с миграциями
+                    .ScanIn(typeof(Startup).Assembly).For.Migrations()
+                ).AddLogging(lb => lb
+                    .AddFluentMigratorConsole());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IMigrationRunner migrationRunner)
         {
             if (env.IsDevelopment())
             {
@@ -92,6 +80,8 @@ namespace MetricsAgent
             {
                 endpoints.MapControllers();
             });
+            
+            migrationRunner.MigrateUp();
         }
     }
 }
