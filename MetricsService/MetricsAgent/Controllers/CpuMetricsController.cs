@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MetricsAgent.DAL;
 using MetricsAgent.Requests;
@@ -17,13 +18,14 @@ namespace MetricsAgent.Controllers
         private readonly IRepository<CpuMetric> _repository;
         private readonly IMapper _mapper;
 
-        public CpuMetricsController(ILogger<CpuMetricsController> logger, IRepository<CpuMetric> repository, IMapper mapper)
+        public CpuMetricsController(ILogger<CpuMetricsController> logger, IRepository<CpuMetric> repository,
+            IMapper mapper)
         {
             _logger = logger;
             _repository = repository;
             _mapper = mapper;
         }
-        
+
         [HttpPost("create")]
         public IActionResult Create([FromBody] MetricCreateRequest<CpuMetric> request)
         {
@@ -37,7 +39,25 @@ namespace MetricsAgent.Controllers
             return Ok();
         }
         
-        [HttpGet("all")]
+        [HttpGet("getbyinterval/from/{fromTime}/to/{toTime}")]
+        public IActionResult GetByInterval([FromRoute] long fromTime, [FromRoute] long toTime)
+        {
+            var metrics = _repository.GetByInterval(fromTime, toTime);
+
+            var response = new AllMetricsResponse<CpuMetric>()
+            {
+                Metrics = new List<MetricDto<CpuMetric>>()
+            };
+            
+            foreach (var metric in metrics)
+            {
+                response.Metrics.Add(_mapper.Map<MetricDto<CpuMetric>>(metric));
+            }
+
+            return Ok(response);
+        }
+        
+        [HttpGet("getall")]
         public IActionResult GetAll()
         {
             var metrics = _repository.GetAll();

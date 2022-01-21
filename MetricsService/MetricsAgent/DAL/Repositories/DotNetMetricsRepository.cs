@@ -31,15 +31,35 @@ namespace MetricsAgent.DAL
             }
         }
         
-        public void Delete(int id)
+        public DotNetMetric GetById(int id)
         {
             using (var connection = new SQLiteConnection(ConnectionString))
             {
-                connection.Execute("DELETE FROM dotnetmetrics WHERE id=@id",
-                    new
-                    {
-                        id = id
-                    });
+                return connection.QuerySingle<DotNetMetric>("SELECT Id, Time, Value FROM dotnetmetrics WHERE id=@id",
+                    new { id = id });
+            }
+        }
+                
+        public IList<DotNetMetric> GetAll()
+        {
+            using (var connection = new SQLiteConnection(ConnectionString))
+            {
+                return connection.Query<DotNetMetric>("SELECT Id, Time, Value FROM dotnetmetrics").ToList();
+            }
+        }
+        
+        public IList<DotNetMetric> GetByInterval(long fromTime, long toTime)
+        {
+            using (var connection = new SQLiteConnection(ConnectionString))
+            {
+                return connection
+                    .Query<DotNetMetric>("SELECT Id, Time, Value FROM dotnetmetrics WHERE time>@fromTime AND time<@toTime;",
+                        new
+                        {
+                            fromTime = fromTime, 
+                            toTime = toTime
+                        })
+                    .ToList();
             }
         }
         
@@ -57,20 +77,15 @@ namespace MetricsAgent.DAL
             }
         }
         
-        public IList<DotNetMetric> GetAll()
+        public void Delete(int id)
         {
             using (var connection = new SQLiteConnection(ConnectionString))
             {
-                return connection.Query<DotNetMetric>("SELECT Id, Time, Value FROM dotnetmetrics").ToList();
-            }
-        }
-        
-        public DotNetMetric GetById(int id)
-        {
-            using (var connection = new SQLiteConnection(ConnectionString))
-            {
-                return connection.QuerySingle<DotNetMetric>("SELECT Id, Time, Value FROM dotnetmetrics WHERE id=@id",
-                    new { id = id });
+                connection.Execute("DELETE FROM dotnetmetrics WHERE id=@id",
+                    new
+                    {
+                        id = id
+                    });
             }
         }
     }

@@ -30,19 +30,38 @@ namespace MetricsAgent.DAL
                     });
             }
         }
-        
-        public void Delete(int id)
+        public HddMetric GetById(int id)
         {
             using (var connection = new SQLiteConnection(ConnectionString))
             {
-                connection.Execute("DELETE FROM hddmetrics WHERE id=@id",
-                    new
-                    {
-                        id = id
-                    });
+                return connection.QuerySingle<HddMetric>("SELECT Id, Time, Value FROM hddmetrics WHERE id=@id",
+                    new { id = id });
             }
         }
         
+        public IList<HddMetric> GetByInterval(long fromTime, long toTime)
+        {
+            using (var connection = new SQLiteConnection(ConnectionString))
+            {
+                return connection
+                    .Query<HddMetric>("SELECT Id, Time, Value FROM hddmetrics WHERE time>@fromTime AND time<@toTime;",
+                        new
+                        {
+                            fromTime = fromTime, 
+                            toTime = toTime
+                        })
+                    .ToList();
+            }
+        }
+        
+        public IList<HddMetric> GetAll()
+        {
+            using (var connection = new SQLiteConnection(ConnectionString))
+            {
+                return connection.Query<HddMetric>("SELECT Id, Time, Value FROM hddmetrics").ToList();
+            }
+        }
+
         public void Update(HddMetric item)
         {
             using (var connection = new SQLiteConnection(ConnectionString))
@@ -57,20 +76,15 @@ namespace MetricsAgent.DAL
             }
         }
         
-        public IList<HddMetric> GetAll()
+        public void Delete(int id)
         {
             using (var connection = new SQLiteConnection(ConnectionString))
             {
-                return connection.Query<HddMetric>("SELECT Id, Time, Value FROM hddmetrics").ToList();
-            }
-        }
-        
-        public HddMetric GetById(int id)
-        {
-            using (var connection = new SQLiteConnection(ConnectionString))
-            {
-                return connection.QuerySingle<HddMetric>("SELECT Id, Time, Value FROM hddmetrics WHERE id=@id",
-                    new { id = id });
+                connection.Execute("DELETE FROM hddmetrics WHERE id=@id",
+                    new
+                    {
+                        id = id
+                    });
             }
         }
     }

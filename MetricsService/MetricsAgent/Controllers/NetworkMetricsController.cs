@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MetricsAgent.DAL;
 using MetricsAgent.Requests;
@@ -35,6 +36,24 @@ namespace MetricsAgent.Controllers
 
             _logger.LogInformation("Time: {0}; Value: {1}", request.Time, request.Value);
             return Ok();
+        }
+        
+        [HttpGet("getbyinterval/from/{fromTime}/to/{toTime}")]
+        public IActionResult GetByInterval([FromRoute] long fromTime, [FromRoute] long toTime)
+        {
+            var metrics = _repository.GetByInterval(fromTime, toTime);
+
+            var response = new AllMetricsResponse<CpuMetric>()
+            {
+                Metrics = new List<MetricDto<CpuMetric>>()
+            };
+            
+            foreach (var metric in metrics)
+            {
+                response.Metrics.Add(_mapper.Map<MetricDto<CpuMetric>>(metric));
+            }
+
+            return Ok(response);
         }
         
         [HttpGet("all")]

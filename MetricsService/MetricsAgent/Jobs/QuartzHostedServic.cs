@@ -15,7 +15,6 @@ using Quartz.Spi;
         private readonly IEnumerable<JobSchedule> _jobSchedules;
 
         public QuartzHostedService(
-            IRepository<CpuMetric> repository,
             ISchedulerFactory schedulerFactory,
             IJobFactory jobFactory,
             IEnumerable<JobSchedule> jobSchedules)
