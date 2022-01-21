@@ -15,16 +15,14 @@ namespace MetricsManager.Controllers
         {
             _logger = logger;
         }
-
-
+        
         [HttpGet("agent/{agentId}/from/{fromTime}/to/{toTime}")]
         public IActionResult GetMetricsFromAgent([FromRoute] int agentId, [FromRoute] TimeSpan fromTime, [FromRoute] TimeSpan toTime)
         {
             _logger.LogInformation("AgentId: {0}; fromTime: {1}; toTime: {2}", agentId, fromTime, toTime);
             return Ok();
         }
-
-
+        
         [HttpGet("cluster/from/{fromTime}/to/{toTime}")]
         public IActionResult GetMetricsFromAllCluster([FromRoute] TimeSpan fromTime, [FromRoute] TimeSpan toTime)
         {

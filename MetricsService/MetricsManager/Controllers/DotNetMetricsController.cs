@@ -22,8 +22,7 @@ namespace MetricsManager.Controllers
             _logger.LogInformation("AgentId: {0}; fromTime: {1}; toTime: {2}", agentId, fromTime, toTime);
             return Ok();
         }
-
-
+        
         [HttpGet("cluster/from/{fromTime}/to/{toTime}")]
         public IActionResult GetMetricsFromAllCluster([FromRoute] TimeSpan fromTime, [FromRoute] TimeSpan toTime)
         {

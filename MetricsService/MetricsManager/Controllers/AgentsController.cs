@@ -16,23 +16,20 @@ namespace MetricsManager.Controllers
             _logger = logger;
         }
         
-
         [HttpPost("register")]
         public IActionResult RegisterAgent([FromBody] AgentInfo agentInfo)
         {
             _logger.LogInformation("AgentInfo: {0}", agentInfo);
             return Ok();
         }
-
-
+        
         [HttpPut("enable/{agentId}")]
         public IActionResult EnableAgentById([FromRoute] int agentId)
         {
             _logger.LogInformation("AgentID: {0}", agentId);
             return Ok();
         }
-
-
+        
         [HttpPut("disable/{agentId}")]
         public IActionResult DisableAgentById([FromRoute] int agentId)
         {

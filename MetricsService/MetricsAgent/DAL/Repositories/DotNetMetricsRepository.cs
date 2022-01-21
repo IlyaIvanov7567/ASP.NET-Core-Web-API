@@ -12,14 +12,12 @@ namespace MetricsAgent.DAL
     public class DotNetMetricsRepository : IRepository<DotNetMetric>
     {
         private const string ConnectionString = @"Data Source=metrics.db; Version=3;Pooling=True;Max Pool Size=100;";
-
-
+        
         public DotNetMetricsRepository()
         {
             SqlMapper.AddTypeHandler(new TimeSpanHandler());
         }
-
-
+        
         public void Create(DotNetMetric item)
         {
             using (var connection = new SQLiteConnection(ConnectionString))
@@ -32,8 +30,7 @@ namespace MetricsAgent.DAL
                     });
             }
         }
-
-
+        
         public void Delete(int id)
         {
             using (var connection = new SQLiteConnection(ConnectionString))
@@ -45,8 +42,7 @@ namespace MetricsAgent.DAL
                     });
             }
         }
-
-
+        
         public void Update(DotNetMetric item)
         {
             using (var connection = new SQLiteConnection(ConnectionString))
@@ -60,8 +56,7 @@ namespace MetricsAgent.DAL
                     });
             }
         }
-
-
+        
         public IList<DotNetMetric> GetAll()
         {
             using (var connection = new SQLiteConnection(ConnectionString))
@@ -69,8 +64,7 @@ namespace MetricsAgent.DAL
                 return connection.Query<DotNetMetric>("SELECT Id, Time, Value FROM dotnetmetrics").ToList();
             }
         }
-
-
+        
         public DotNetMetric GetById(int id)
         {
             using (var connection = new SQLiteConnection(ConnectionString))

@@ -23,8 +23,7 @@ namespace MetricsAgent.Controllers
             _repository = repository;
             _mapper = mapper;
         }
-
-
+        
         [HttpPost("create")]
         public IActionResult Create([FromBody] MetricCreateRequest<DotNetMetric> request)
         {
@@ -37,8 +36,7 @@ namespace MetricsAgent.Controllers
             _logger.LogInformation("Time: {0}; Value: {1}", request.Time, request.Value);
             return Ok();
         }
-
-
+        
         [HttpGet("all")]
         public IActionResult GetAll()
         {

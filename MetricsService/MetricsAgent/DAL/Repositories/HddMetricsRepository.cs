@@ -12,14 +12,12 @@ namespace MetricsAgent.DAL
     public class HddMetricsRepository : IRepository<HddMetric>
     {
         private const string ConnectionString = @"Data Source=metrics.db; Version=3;Pooling=True;Max Pool Size=100;";
-
-
+        
         public HddMetricsRepository()
         {
             SqlMapper.AddTypeHandler(new TimeSpanHandler());
         }
-
-
+        
         public void Create(HddMetric item)
         {
             using (var connection = new SQLiteConnection(ConnectionString))
@@ -32,8 +30,7 @@ namespace MetricsAgent.DAL
                     });
             }
         }
-
-
+        
         public void Delete(int id)
         {
             using (var connection = new SQLiteConnection(ConnectionString))
@@ -45,8 +42,7 @@ namespace MetricsAgent.DAL
                     });
             }
         }
-
-
+        
         public void Update(HddMetric item)
         {
             using (var connection = new SQLiteConnection(ConnectionString))
@@ -60,8 +56,7 @@ namespace MetricsAgent.DAL
                     });
             }
         }
-
-
+        
         public IList<HddMetric> GetAll()
         {
             using (var connection = new SQLiteConnection(ConnectionString))
@@ -69,8 +64,7 @@ namespace MetricsAgent.DAL
                 return connection.Query<HddMetric>("SELECT Id, Time, Value FROM hddmetrics").ToList();
             }
         }
-
-
+        
         public HddMetric GetById(int id)
         {
             using (var connection = new SQLiteConnection(ConnectionString))

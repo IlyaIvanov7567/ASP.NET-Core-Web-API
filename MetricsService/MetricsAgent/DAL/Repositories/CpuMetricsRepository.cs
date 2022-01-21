@@ -12,14 +12,12 @@ namespace MetricsAgent.DAL
     public class CpuMetricsRepository : IRepository<CpuMetric>
     {
         private const string ConnectionString = @"Data Source=metrics.db; Version=3;Pooling=True;Max Pool Size=100;";
-
-
+        
         public CpuMetricsRepository()
         {
             SqlMapper.AddTypeHandler(new TimeSpanHandler());
         }
-
-
+        
         public void Create(CpuMetric item)
         {
             using (var connection = new SQLiteConnection(ConnectionString))
@@ -32,8 +30,7 @@ namespace MetricsAgent.DAL
                     });
             }
         }
-
-
+        
         public void Delete(int id)
         {
             using (var connection = new SQLiteConnection(ConnectionString))
@@ -45,8 +42,7 @@ namespace MetricsAgent.DAL
                     });
             }
         }
-
-
+        
         public void Update(CpuMetric item)
         {
             using (var connection = new SQLiteConnection(ConnectionString))
@@ -60,8 +56,7 @@ namespace MetricsAgent.DAL
                     });
             }
         }
-
-
+        
         public IList<CpuMetric> GetAll()
         {
             using (var connection = new SQLiteConnection(ConnectionString))
@@ -69,8 +64,7 @@ namespace MetricsAgent.DAL
                 return connection.Query<CpuMetric>("SELECT Id, Time, Value FROM cpumetrics").ToList();
             }
         }
-
-
+        
         public CpuMetric GetById(int id)
         {
             using (var connection = new SQLiteConnection(ConnectionString))
