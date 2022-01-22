@@ -22,11 +22,11 @@ namespace MetricsAgent.Jobs
 
         public Task Execute(IJobExecutionContext context)
         {
-            var hddReadInBytes = Convert.ToInt32(_perfomanceCounter.NextValue());
+            var diskReadInBytesPerSec = Convert.ToInt32(_perfomanceCounter.NextValue());
             
             var time = TimeSpan.FromSeconds(DateTimeOffset.UtcNow.ToUnixTimeSeconds());
 
-            _repository.Create(new Models.HddMetric { Time = time, Value = hddReadInBytes });
+            _repository.Create(new Models.HddMetric { Time = time, Value = diskReadInBytesPerSec });
             
             return Task.CompletedTask;
         }

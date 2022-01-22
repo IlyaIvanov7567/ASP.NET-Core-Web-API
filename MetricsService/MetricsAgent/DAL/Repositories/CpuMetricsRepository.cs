@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Linq;
+using Microsoft.Extensions.Configuration;
 
 namespace MetricsAgent.DAL
 {

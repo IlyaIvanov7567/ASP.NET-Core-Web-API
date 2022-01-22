@@ -43,14 +43,14 @@ namespace MetricsAgent.Controllers
         {
             var metrics = _repository.GetByInterval(fromTime, toTime);
 
-            var response = new AllMetricsResponse<CpuMetric>()
+            var response = new AllMetricsResponse<RamMetric>()
             {
-                Metrics = new List<MetricDto<CpuMetric>>()
+                Metrics = new List<MetricDto<RamMetric>>()
             };
             
             foreach (var metric in metrics)
             {
-                response.Metrics.Add(_mapper.Map<MetricDto<CpuMetric>>(metric));
+                response.Metrics.Add(_mapper.Map<MetricDto<RamMetric>>(metric));
             }
 
             return Ok(response);
