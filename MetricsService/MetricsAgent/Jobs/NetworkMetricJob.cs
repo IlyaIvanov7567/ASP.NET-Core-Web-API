@@ -12,29 +12,31 @@ namespace MetricsAgent.Jobs
     {
         private readonly IRepository<NetworkMetric> _repository;
 
-        private readonly PerformanceCounter _perfomanceCounter;
-
         public NetworkMetricJob(IRepository<NetworkMetric> repository)
         {
             _repository = repository;
-
-            PerformanceCounterCategory category = new PerformanceCounterCategory("Network Interface");
-
-            String[] instancename = category.GetInstanceNames();
-
-            foreach (var item in instancename)
-            {
-                _perfomanceCounter = new PerformanceCounter("Network Interface", "Bytes Received/sec", item);
-            }
         }
 
         public Task Execute(IJobExecutionContext context)
         {
-            var bytesPerSecReceived = Convert.ToInt32(_perfomanceCounter.NextValue());
+            PerformanceCounterCategory category = new PerformanceCounterCategory("Network Interface");
+
+            String[] instancename = category.GetInstanceNames();
+
+            int bytesPerSecReceivedTotal = 0;
+
+            PerformanceCounter perfomanceCounter;
+
+            foreach (var item in instancename)
+            {
+                perfomanceCounter = new PerformanceCounter("Network Interface", "Bytes Received/sec", item);
+
+                bytesPerSecReceivedTotal += Convert.ToInt32(perfomanceCounter.NextValue());
+            }
 
             var time = TimeSpan.FromSeconds(DateTimeOffset.UtcNow.ToUnixTimeSeconds());
 
-            _repository.Create(new Models.NetworkMetric {Time = time, Value = bytesPerSecReceived});
+            _repository.Create(new Models.NetworkMetric {Time = time, Value = bytesPerSecReceivedTotal});
 
             return Task.CompletedTask;
         }
