@@ -42,6 +42,7 @@ namespace MetricsAgent
             {
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "MetricsAgent", Version = "v1"});
             });
+            
             services.AddSingleton<IRepository<CpuMetric>, CpuMetricsRepository>();
             services.AddSingleton<IRepository<DotNetMetric>, DotNetMetricsRepository>();
             services.AddSingleton<IRepository<HddMetric>, HddMetricsRepository>();

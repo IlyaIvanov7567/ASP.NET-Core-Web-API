@@ -43,7 +43,7 @@ namespace MetricsAgent.Controllers
         {
             var metrics = _repository.GetByInterval(fromTime, toTime);
 
-            var response = new AllMetricsResponse<DotNetMetric>()
+            var response = new MetricsResponse<DotNetMetric>()
             {
                 Metrics = new List<MetricDto<DotNetMetric>>()
             };
@@ -61,7 +61,7 @@ namespace MetricsAgent.Controllers
         {
             var metrics = _repository.GetAll();
 
-            var response = new AllMetricsResponse<DotNetMetric>()
+            var response = new MetricsResponse<DotNetMetric>()
             {
                 Metrics = new List<MetricDto<DotNetMetric>>()
             };

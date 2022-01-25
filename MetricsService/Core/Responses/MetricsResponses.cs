@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace MetricsAgent.Responses
 {
-    public class AllMetricsResponse<T>
+    public class MetricsResponse<T>
     {
         public List<MetricDto<T>> Metrics { get; set; }
     }
