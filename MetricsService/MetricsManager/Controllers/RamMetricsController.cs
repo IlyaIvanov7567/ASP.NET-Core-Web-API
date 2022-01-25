@@ -8,7 +8,7 @@ using MetricsManager.Client;
 
 namespace MetricsManager.Controllers
 {
-    [Route("api/metrics/cpu")]
+    [Route("api/metrics/ram")]
     [ApiController]
     public class RamMetricsController : ControllerBase
     {
@@ -20,7 +20,7 @@ namespace MetricsManager.Controllers
             _logger = logger;
         }
         
-        [HttpGet("/from/{fromTime}/to/{toTime}")]
+        [HttpGet("from/{fromTime}/to/{toTime}")]
         public IActionResult GetMetricsFromAgent([FromRoute] TimeSpan fromTime, [FromRoute] TimeSpan toTime)
         {
             var response = metricsAgentClient.GetRamMetrics(new MetricGetRequest<RamMetric>(fromTime, toTime));

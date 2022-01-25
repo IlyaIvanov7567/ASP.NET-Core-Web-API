@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FluentMigrator.Runner;
 using MetricsManager.Client;
 using MetricsManager.Clients;
 using Microsoft.AspNetCore.Builder;
@@ -26,6 +27,8 @@ namespace MetricsManager
 
         public IConfiguration Configuration { get; }
 
+        private const string ConnectionString = "Data Source=metricsmanager.db;Version=3;Pooling=true;Max Pool Size=100;";
+        
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -35,13 +38,21 @@ namespace MetricsManager
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "MetricsManager", Version = "v1"});
             });
             
+            services.AddFluentMigratorCore()
+                .ConfigureRunner(rb => rb
+                    .AddSQLite()
+                    .WithGlobalConnectionString(ConnectionString)
+                    .ScanIn(typeof(Startup).Assembly).For.Migrations()
+                ).AddLogging(lb => lb
+                    .AddFluentMigratorConsole());
+            
             services.AddHttpClient<IMetricsAgentClient, MetricsAgentClient>()
                 .AddTransientHttpErrorPolicy(p => 
                     p.WaitAndRetryAsync(3, _ => TimeSpan.FromMilliseconds(1000)));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IMigrationRunner migrationRunner)
         {
             if (env.IsDevelopment())
             {
@@ -57,6 +68,8 @@ namespace MetricsManager
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+            
+            migrationRunner.MigrateUp();
         }
     }
 }

@@ -21,7 +21,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="DAL\Migrations" />
+      <Folder Include="Repositories" />
     </ItemGroup>
 
 </Project>

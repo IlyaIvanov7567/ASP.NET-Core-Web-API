@@ -20,7 +20,7 @@ namespace MetricsManager.Controllers
             _logger = logger;
         }
         
-        [HttpGet("/from/{fromTime}/to/{toTime}")]
+        [HttpGet("from/{fromTime}/to/{toTime}")]
         public IActionResult GetMetricsFromAgent([FromRoute] TimeSpan fromTime, [FromRoute] TimeSpan toTime)
         {
             var response = _metricsAgentClient.GetCpuMetrics(new MetricGetRequest<CpuMetric>(fromTime, toTime));
