@@ -6,22 +6,22 @@ using Core.DAL.Models;
 using Core.Interfaces;
 using Dapper;
 
-namespace MetricsAgent.DAL.Repositories
+namespace MetricsManager.DAL.Repositories
 {
-    public class NetworkMetricsRepository : IRepository<NetworkMetric>
+     public class DotNetMetricsRepository : IRepository<DotNetMetric>
     {
-        private const string ConnectionString = @"Data Source=metrics.db; Version=3;Pooling=True;Max Pool Size=100;";
-
-        public NetworkMetricsRepository()
+        private const string ConnectionString = @"Data Source=metricsmanager.db; Version=3;Pooling=True;Max Pool Size=100;";
+        
+        public DotNetMetricsRepository()
         {
             SqlMapper.AddTypeHandler(new TimeSpanHandler());
         }
-
-        public void Create(NetworkMetric item)
+        
+        public void Create(DotNetMetric item)
         {
             using (var connection = new SQLiteConnection(ConnectionString))
             {
-                connection.Execute("INSERT INTO networkmetrics(value, time) VALUES(@value, @time)",
+                connection.Execute("INSERT INTO dotnetmetrics(value, time) VALUES(@value, @time)",
                     new
                     {
                         value = item.Value,
@@ -29,22 +29,30 @@ namespace MetricsAgent.DAL.Repositories
                     });
             }
         }
-
-        public NetworkMetric GetById(int id)
+        
+        public DotNetMetric GetById(int id)
         {
             using (var connection = new SQLiteConnection(ConnectionString))
             {
-                return connection.QuerySingle<NetworkMetric>("SELECT Id, Time, Value FROM networkmetrics WHERE id=@id",
-                    new {id = id});
+                return connection.QuerySingle<DotNetMetric>("SELECT Id, Time, Value FROM dotnetmetrics WHERE id=@id",
+                    new { id = id });
+            }
+        }
+                
+        public IList<DotNetMetric> GetAll()
+        {
+            using (var connection = new SQLiteConnection(ConnectionString))
+            {
+                return connection.Query<DotNetMetric>("SELECT Id, Time, Value FROM dotnetmetrics").ToList();
             }
         }
         
-        public IList<NetworkMetric> GetByInterval(long fromTime, long toTime)
+        public IList<DotNetMetric> GetByInterval(long fromTime, long toTime)
         {
             using (var connection = new SQLiteConnection(ConnectionString))
             {
                 return connection
-                    .Query<NetworkMetric>("SELECT Id, Time, Value FROM networkmetrics WHERE time>@fromTime AND time<@toTime;",
+                    .Query<DotNetMetric>("SELECT Id, Time, Value FROM dotnetmetrics WHERE time>@fromTime AND time<@toTime;",
                         new
                         {
                             fromTime = fromTime, 
@@ -53,20 +61,12 @@ namespace MetricsAgent.DAL.Repositories
                     .ToList();
             }
         }
-
-        public IList<NetworkMetric> GetAll()
+        
+        public void Update(DotNetMetric item)
         {
             using (var connection = new SQLiteConnection(ConnectionString))
             {
-                return connection.Query<NetworkMetric>("SELECT Id, Time, Value FROM networkmetrics").ToList();
-            }
-        }
-
-        public void Update(NetworkMetric item)
-        {
-            using (var connection = new SQLiteConnection(ConnectionString))
-            {
-                connection.Execute("UPDATE networkmetrics SET value = @value, time = @time WHERE id=@id",
+                connection.Execute("UPDATE dotnetmetrics SET value = @value, time = @time WHERE id=@id",
                     new
                     {
                         value = item.Value,
@@ -75,12 +75,12 @@ namespace MetricsAgent.DAL.Repositories
                     });
             }
         }
-
+        
         public void Delete(int id)
         {
             using (var connection = new SQLiteConnection(ConnectionString))
             {
-                connection.Execute("DELETE FROM networkmetrics WHERE id=@id",
+                connection.Execute("DELETE FROM dotnetmetrics WHERE id=@id",
                     new
                     {
                         id = id

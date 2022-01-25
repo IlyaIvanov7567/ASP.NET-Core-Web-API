@@ -6,11 +6,11 @@ using Core.DAL.Models;
 using Core.Interfaces;
 using Dapper;
 
-namespace MetricsAgent.DAL.Repositories
+namespace MetricsManager.DAL.Repositories
 {
     public class NetworkMetricsRepository : IRepository<NetworkMetric>
     {
-        private const string ConnectionString = @"Data Source=metrics.db; Version=3;Pooling=True;Max Pool Size=100;";
+        private const string ConnectionString = @"Data Source=metricsmanager.db; Version=3;Pooling=True;Max Pool Size=100;";
 
         public NetworkMetricsRepository()
         {

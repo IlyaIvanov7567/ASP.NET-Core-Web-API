@@ -1,8 +1,8 @@
-﻿using Dapper;
+﻿using System;
 using System.Data;
-using System;
+using Dapper;
 
-namespace MetricsAgent.DAL
+namespace Core
 {
     public class TimeSpanHandler : SqlMapper.TypeHandler<TimeSpan>
     {

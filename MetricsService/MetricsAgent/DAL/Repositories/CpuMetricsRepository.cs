@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Linq;
+using Core;
 using Core.DAL.Models;
 using Core.Interfaces;
 using Dapper;

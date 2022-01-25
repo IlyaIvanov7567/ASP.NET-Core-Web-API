@@ -1,17 +1,14 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Core.DAL.Models;
+using Core.Interfaces;
 using FluentMigrator.Runner;
+using MetricsAgent.DAL.Repositories;
 using MetricsManager.Clients;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Polly;
 
@@ -48,6 +45,12 @@ namespace MetricsManager
             services.AddHttpClient<IMetricsAgentClient, MetricsAgentClient>()
                 .AddTransientHttpErrorPolicy(p => 
                     p.WaitAndRetryAsync(3, _ => TimeSpan.FromMilliseconds(1000)));
+            
+            services.AddSingleton<IRepository<CpuMetric>, CpuMetricsRepository>();
+            services.AddSingleton<IRepository<DotNetMetric>, DotNetMetricsRepository>();
+            services.AddSingleton<IRepository<HddMetric>, HddMetricsRepository>();
+            services.AddSingleton<IRepository<NetworkMetric>, NetworkMetricsRepository>();
+            services.AddSingleton<IRepository<RamMetric>, RamMetricsRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

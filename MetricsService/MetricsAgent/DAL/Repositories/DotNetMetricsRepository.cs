@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Linq;
+using Core;
 using Core.DAL.Models;
 using Core.Interfaces;
 using Dapper;
 
 namespace MetricsAgent.DAL.Repositories
 {
-
-
+    
     public class DotNetMetricsRepository : IRepository<DotNetMetric>
     {
         private const string ConnectionString = @"Data Source=metrics.db; Version=3;Pooling=True;Max Pool Size=100;";

@@ -6,22 +6,22 @@ using Core.DAL.Models;
 using Core.Interfaces;
 using Dapper;
 
-namespace MetricsAgent.DAL.Repositories
+namespace MetricsManager.DAL.Repositories
 {
-    public class NetworkMetricsRepository : IRepository<NetworkMetric>
+   public class RamMetricsRepository : IRepository<RamMetric>
     {
-        private const string ConnectionString = @"Data Source=metrics.db; Version=3;Pooling=True;Max Pool Size=100;";
+        private const string ConnectionString = @"Data Source=metricsmanager.db; Version=3;Pooling=True;Max Pool Size=100;";
 
-        public NetworkMetricsRepository()
+        public RamMetricsRepository()
         {
             SqlMapper.AddTypeHandler(new TimeSpanHandler());
         }
 
-        public void Create(NetworkMetric item)
+        public void Create(RamMetric item)
         {
             using (var connection = new SQLiteConnection(ConnectionString))
             {
-                connection.Execute("INSERT INTO networkmetrics(value, time) VALUES(@value, @time)",
+                connection.Execute("INSERT INTO rammetrics(value, time) VALUES(@value, @time)",
                     new
                     {
                         value = item.Value,
@@ -30,21 +30,21 @@ namespace MetricsAgent.DAL.Repositories
             }
         }
 
-        public NetworkMetric GetById(int id)
+        public RamMetric GetById(int id)
         {
             using (var connection = new SQLiteConnection(ConnectionString))
             {
-                return connection.QuerySingle<NetworkMetric>("SELECT Id, Time, Value FROM networkmetrics WHERE id=@id",
+                return connection.QuerySingle<RamMetric>("SELECT Id, Time, Value FROM rammetrics WHERE id=@id",
                     new {id = id});
             }
         }
-        
-        public IList<NetworkMetric> GetByInterval(long fromTime, long toTime)
+
+        public IList<RamMetric> GetByInterval(long fromTime, long toTime)
         {
             using (var connection = new SQLiteConnection(ConnectionString))
             {
                 return connection
-                    .Query<NetworkMetric>("SELECT Id, Time, Value FROM networkmetrics WHERE time>@fromTime AND time<@toTime;",
+                    .Query<RamMetric>("SELECT Id, Time, Value FROM rammetrics WHERE time>@fromTime AND time<@toTime;",
                         new
                         {
                             fromTime = fromTime, 
@@ -54,19 +54,19 @@ namespace MetricsAgent.DAL.Repositories
             }
         }
 
-        public IList<NetworkMetric> GetAll()
+        public IList<RamMetric> GetAll()
         {
             using (var connection = new SQLiteConnection(ConnectionString))
             {
-                return connection.Query<NetworkMetric>("SELECT Id, Time, Value FROM networkmetrics").ToList();
+                return connection.Query<RamMetric>("SELECT Id, Time, Value FROM rammetrics").ToList();
             }
         }
 
-        public void Update(NetworkMetric item)
+        public void Update(RamMetric item)
         {
             using (var connection = new SQLiteConnection(ConnectionString))
             {
-                connection.Execute("UPDATE networkmetrics SET value = @value, time = @time WHERE id=@id",
+                connection.Execute("UPDATE rammetrics SET value = @value, time = @time WHERE id=@id",
                     new
                     {
                         value = item.Value,
@@ -80,7 +80,7 @@ namespace MetricsAgent.DAL.Repositories
         {
             using (var connection = new SQLiteConnection(ConnectionString))
             {
-                connection.Execute("DELETE FROM networkmetrics WHERE id=@id",
+                connection.Execute("DELETE FROM rammetrics WHERE id=@id",
                     new
                     {
                         id = id
