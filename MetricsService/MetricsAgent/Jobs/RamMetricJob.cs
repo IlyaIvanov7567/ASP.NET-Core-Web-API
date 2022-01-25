@@ -1,10 +1,9 @@
-﻿using MetricsAgent.DAL;
-using Microsoft.Extensions.DependencyInjection;
-using Quartz;
+﻿using Quartz;
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using MetricsAgent.Models;
+using Core.DAL.Models;
+using Core.Interfaces;
 
 namespace MetricsAgent.Jobs
 {
@@ -22,11 +21,11 @@ namespace MetricsAgent.Jobs
 
         public Task Execute(IJobExecutionContext context)
         {
-            var RamAvailable = Convert.ToInt32(_perfomanceCounter.NextValue());
+            var ramAvailable = Convert.ToInt32(_perfomanceCounter.NextValue());
             
             var time = TimeSpan.FromSeconds(DateTimeOffset.UtcNow.ToUnixTimeSeconds());
 
-            _repository.Create(new Models.RamMetric { Time = time, Value = RamAvailable });
+            _repository.Create(new RamMetric { Time = time, Value = ramAvailable });
             
             return Task.CompletedTask;
         }

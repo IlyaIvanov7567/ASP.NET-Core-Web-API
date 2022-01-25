@@ -1,6 +1,7 @@
 ﻿using MetricsManager.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using MetricsManager;
 using Xunit;
 using Microsoft.Extensions.Logging;
 using Moq;

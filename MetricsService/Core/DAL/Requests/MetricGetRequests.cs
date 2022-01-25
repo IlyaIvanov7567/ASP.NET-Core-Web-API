@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Data.Common;
 
-namespace MetricsAgent.Requests
+namespace Core.DAL.Requests
 {
     public class MetricGetRequest<T>
     {

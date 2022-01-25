@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MetricsManager.Controllers
+namespace MetricsManager
 {
     public class AgentInfo
     {

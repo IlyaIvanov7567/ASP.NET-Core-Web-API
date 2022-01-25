@@ -1,9 +1,8 @@
-﻿using MetricsAgent.Jobs;
-using MetricsAgent.Models;
-using MetricsAgent.Requests;
-using MetricsAgent.Responses;
+﻿using Core.DAL.Models;
+using Core.DAL.Requests;
+using Core.DAL.Responses;
 
-namespace MetricsManager.Client
+namespace MetricsManager.Clients
 {
     public interface IMetricsAgentClient
     {

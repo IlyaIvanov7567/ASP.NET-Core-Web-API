@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MetricsAgent.Requests
+namespace Core.DAL.Requests
 {
     public class MetricCreateRequest<T>
     {

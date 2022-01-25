@@ -1,10 +1,9 @@
-﻿using MetricsAgent.DAL;
-using Microsoft.Extensions.DependencyInjection;
-using Quartz;
+﻿using Quartz;
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using MetricsAgent.Models;
+using Core.DAL.Models;
+using Core.Interfaces;
 
 namespace MetricsAgent.Jobs
 {
@@ -27,7 +26,7 @@ namespace MetricsAgent.Jobs
             
             var time = TimeSpan.FromSeconds(DateTimeOffset.UtcNow.ToUnixTimeSeconds());
 
-            _repository.Create(new Models.DotNetMetric { Time = time, Value = heapUsageInBytes });
+            _repository.Create(new DotNetMetric { Time = time, Value = heapUsageInBytes });
             
             return Task.CompletedTask;
         }

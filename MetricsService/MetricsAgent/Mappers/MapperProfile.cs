@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using MetricsAgent.Models;
-using MetricsAgent.Responses;
+using Core.DAL.Models;
+using Core.DAL.Responses;
 
-namespace MetricsAgent
+namespace MetricsAgent.Mappers
 {
     public class MapperProfile : Profile
     {

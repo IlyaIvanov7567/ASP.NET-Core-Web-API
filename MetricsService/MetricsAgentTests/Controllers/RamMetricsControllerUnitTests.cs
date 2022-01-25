@@ -5,9 +5,10 @@ using Xunit;
 using Microsoft.Extensions.Logging;
 using Moq;
 using MetricsAgent.DAL;
-using MetricsAgent.Models;
-using MetricsAgent.Requests;
 using AutoMapper;
+using Core.DAL.Models;
+using Core.DAL.Requests;
+using Core.Interfaces;
 using MetricsAgent;
 
 namespace MetricsAgentTests

@@ -1,13 +1,16 @@
 ﻿using System;
 
-public class JobSchedule
+namespace MetricsAgent.Jobs
 {
-    public JobSchedule(Type jobType, string cronExpression)
+    public class JobSchedule
     {
-        JobType = jobType;
-        CronExpression = cronExpression;
-    }
+        public JobSchedule(Type jobType, string cronExpression)
+        {
+            JobType = jobType;
+            CronExpression = cronExpression;
+        }
 
-    public Type JobType { get; }
-    public string CronExpression { get; }
+        public Type JobType { get; }
+        public string CronExpression { get; }
+    }
 }

@@ -1,10 +1,9 @@
-﻿using MetricsAgent.DAL;
-using Microsoft.Extensions.DependencyInjection;
-using Quartz;
+﻿using Quartz;
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using MetricsAgent.Models;
+using Core.DAL.Models;
+using Core.Interfaces;
 
 namespace MetricsAgent.Jobs
 {
@@ -26,7 +25,7 @@ namespace MetricsAgent.Jobs
             
             var time = TimeSpan.FromSeconds(DateTimeOffset.UtcNow.ToUnixTimeSeconds());
 
-            _repository.Create(new Models.CpuMetric { Time = time, Value = cpuUsageInPercents });
+            _repository.Create(new CpuMetric { Time = time, Value = cpuUsageInPercents });
             
             return Task.CompletedTask;
         }

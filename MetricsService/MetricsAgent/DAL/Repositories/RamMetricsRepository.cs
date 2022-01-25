@@ -1,11 +1,11 @@
-﻿using Dapper;
-using MetricsAgent.Models;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Linq;
+using Core.DAL.Models;
+using Core.Interfaces;
+using Dapper;
 
-namespace MetricsAgent.DAL
+namespace MetricsAgent.DAL.Repositories
 {
     public class RamMetricsRepository : IRepository<RamMetric>
     {

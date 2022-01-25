@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using MetricsAgent.Models;
-using MetricsAgent.Requests;
-using MetricsManager.Client;
+using Core.DAL.Models;
+using Core.DAL.Requests;
+using MetricsManager.Clients;
 
 
 namespace MetricsManager.Controllers

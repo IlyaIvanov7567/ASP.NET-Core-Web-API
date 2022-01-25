@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MetricsAgent.Responses
+namespace Core.DAL.Responses
 {
     public class MetricsResponse<T>
     {

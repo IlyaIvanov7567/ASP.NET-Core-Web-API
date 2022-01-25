@@ -1,9 +1,8 @@
 ﻿using System.Net.Http;
 using System.Text.Json;
-using MetricsAgent.Models;
-using MetricsAgent.Requests;
-using MetricsAgent.Responses;
-using MetricsManager.Client;
+using Core.DAL.Models;
+using Core.DAL.Requests;
+using Core.DAL.Responses;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 

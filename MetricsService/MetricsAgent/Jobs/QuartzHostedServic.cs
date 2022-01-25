@@ -1,13 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using MetricsAgent.DAL;
-using MetricsAgent.Models;
 using Microsoft.Extensions.Hosting;
 using Quartz;
 using Quartz.Spi;
 
-
+namespace MetricsAgent.Jobs
+{
     public class QuartzHostedService : IHostedService
     {
         private readonly ISchedulerFactory _schedulerFactory;
@@ -66,3 +65,4 @@ using Quartz.Spi;
                 .Build();
         }
     }
+}
