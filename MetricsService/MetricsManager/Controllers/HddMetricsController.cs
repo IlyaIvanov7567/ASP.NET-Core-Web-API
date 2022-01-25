@@ -13,7 +13,7 @@ namespace MetricsManager.Controllers
     public class HddMetricsController : ControllerBase
     {
         private readonly ILogger<HddMetricsController> _logger;
-        private readonly IMetricsAgentClient _metricsAgentClientagent;
+        private readonly IMetricsAgentClient metricsAgentClient;
         
         public HddMetricsController (ILogger<HddMetricsController> logger)
         {
@@ -23,7 +23,7 @@ namespace MetricsManager.Controllers
         [HttpGet("/from/{fromTime}/to/{toTime}")]
         public IActionResult GetMetricsFromAgent([FromRoute] TimeSpan fromTime, [FromRoute] TimeSpan toTime)
         {
-            var response = _metricsAgentClientagent.GetHddMetrics(new MetricGetRequest<HddMetric>(fromTime, toTime));
+            var response = metricsAgentClient.GetHddMetrics(new MetricGetRequest<HddMetric>(fromTime, toTime));
 
             if (response == null)
                 return Problem();

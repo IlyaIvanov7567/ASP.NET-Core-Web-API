@@ -13,7 +13,7 @@ namespace MetricsManager.Controllers
     public class RamMetricsController : ControllerBase
     {
         private readonly ILogger<RamMetricsController> _logger;
-        private readonly IMetricsAgentClient _metricsAgentClientagent;
+        private readonly IMetricsAgentClient metricsAgentClient;
         
         public RamMetricsController (ILogger<RamMetricsController> logger)
         {
@@ -23,7 +23,7 @@ namespace MetricsManager.Controllers
         [HttpGet("/from/{fromTime}/to/{toTime}")]
         public IActionResult GetMetricsFromAgent([FromRoute] TimeSpan fromTime, [FromRoute] TimeSpan toTime)
         {
-            var response = _metricsAgentClientagent.GetRamMetrics(new MetricGetRequest<RamMetric>(fromTime, toTime));
+            var response = metricsAgentClient.GetRamMetrics(new MetricGetRequest<RamMetric>(fromTime, toTime));
 
             if (response == null)
                 return Problem();

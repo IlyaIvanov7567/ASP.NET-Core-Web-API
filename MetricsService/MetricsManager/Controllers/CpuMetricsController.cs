@@ -13,7 +13,7 @@ namespace MetricsManager.Controllers
     public class CpuMetricsController : ControllerBase
     {
         private readonly ILogger<CpuMetricsController> _logger;
-        private readonly IMetricsAgentClient _metricsAgentClientagent;
+        private readonly IMetricsAgentClient _metricsAgentClient;
         
         public CpuMetricsController (ILogger<CpuMetricsController> logger)
         {
@@ -23,7 +23,7 @@ namespace MetricsManager.Controllers
         [HttpGet("/from/{fromTime}/to/{toTime}")]
         public IActionResult GetMetricsFromAgent([FromRoute] TimeSpan fromTime, [FromRoute] TimeSpan toTime)
         {
-            var response = _metricsAgentClientagent.GetCpuMetrics(new MetricGetRequest<CpuMetric>(fromTime, toTime));
+            var response = _metricsAgentClient.GetCpuMetrics(new MetricGetRequest<CpuMetric>(fromTime, toTime));
 
             if (response == null)
                 return Problem();
