@@ -7,7 +7,7 @@ namespace Core.DAL.Requests
         public MetricGetRequest(TimeSpan fromTime, TimeSpan toTime)
         {
             FromTime = fromTime;
-            ToTime = ToTime;
+            ToTime = toTime;
         }
         public TimeSpan FromTime { get; private set; }
        
