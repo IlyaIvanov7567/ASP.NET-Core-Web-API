@@ -39,14 +39,12 @@ namespace MetricsManager.Jobs
             {
                 using (var connection = new SQLiteConnection(ConnectionString))
                 {
-                    CpuMetric lastsynctime = connection.QuerySingle<CpuMetric>("SELECT MAX(time) FROM cpumetrics");
-                    if (lastsynctime.Time == null)
-                        return DateTime.UtcNow.TimeOfDay;
+                    CpuMetric lastsynctime = connection.QuerySingle<CpuMetric>("SELECT time FROM cpumetrics order by time desc limit 1");
                     return lastsynctime.Time;
                 }
             }
 
-            var response = _agentClient.GetCpuMetrics(new MetricGetRequest<CpuMetric>(lastsynctime, DateTime.UtcNow.TimeOfDay));
+            var response = _agentClient.GetCpuMetrics(new MetricGetRequest<CpuMetric>(lastsynctime, TimeSpan.FromTicks(DateTime.Now.Ticks)));
 
             foreach (var metricDto in response.Metrics)
             {

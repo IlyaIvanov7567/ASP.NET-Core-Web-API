@@ -2,7 +2,7 @@
 using Core.DAL.Models;
 using Core.DAL.Responses;
 
-namespace MetricsAgent.Mappers
+namespace Core.Mappers
 {
     public class MapperProfile : Profile
     {

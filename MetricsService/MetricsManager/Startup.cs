@@ -1,6 +1,8 @@
 using System;
+using AutoMapper;
 using Core.DAL.Models;
 using Core.Interfaces;
+using Core.Mappers;
 using FluentMigrator.Runner;
 using MetricsManager.Clients;
 using Microsoft.AspNetCore.Builder;
@@ -56,6 +58,10 @@ namespace MetricsManager
             services.AddSingleton<IRepository<HddMetric>, HddMetricsRepository>();
             services.AddSingleton<IRepository<NetworkMetric>, NetworkMetricsRepository>();
             services.AddSingleton<IRepository<RamMetric>, RamMetricsRepository>();
+            
+            var mapperConfiguration = new MapperConfiguration(mp => mp.AddProfile(new MapperProfile()));
+            var mapper = mapperConfiguration.CreateMapper();
+            services.AddSingleton(mapper);
 
             services.AddSingleton<IJobFactory, SingletonJobFactory>();
             services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
