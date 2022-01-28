@@ -53,6 +53,20 @@ namespace MetricsManager.DAL.Repositories
                     .ToList();
             }
         }
+        
+        public IList<RamMetric> GetFromDate(long fromTime)
+        {
+            using (var connection = new SQLiteConnection(ConnectionString))
+            {
+                return connection
+                    .Query<RamMetric>("SELECT Id, Time, Value FROM cpumetrics WHERE time>@fromTime;",
+                        new
+                        {
+                            fromTime = fromTime,
+                        })
+                    .ToList();
+            }
+        }
 
         public IList<RamMetric> GetAll()
         {

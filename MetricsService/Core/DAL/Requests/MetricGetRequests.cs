@@ -9,7 +9,6 @@ namespace Core.DAL.Requests
             FromTime = fromTime;
             ToTime = ToTime;
         }
-        
         public TimeSpan FromTime { get; private set; }
        
         public TimeSpan ToTime { get; private set; }

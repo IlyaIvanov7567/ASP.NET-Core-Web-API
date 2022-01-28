@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Quartz;
 using Quartz.Spi;
 
-namespace MetricsAgent.Jobs
+namespace MetricsManager.Jobs
 {
     public class SingletonJobFactory : IJobFactory
     {

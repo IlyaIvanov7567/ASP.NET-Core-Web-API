@@ -53,6 +53,20 @@ namespace MetricsManager.DAL.Repositories
             }
         }
         
+        public IList<HddMetric> GetFromDate(long fromTime)
+        {
+            using (var connection = new SQLiteConnection(ConnectionString))
+            {
+                return connection
+                    .Query<HddMetric>("SELECT Id, Time, Value FROM cpumetrics WHERE time>@fromTime;",
+                        new
+                        {
+                            fromTime = fromTime,
+                        })
+                    .ToList();
+            }
+        }
+        
         public IList<HddMetric> GetAll()
         {
             using (var connection = new SQLiteConnection(ConnectionString))

@@ -14,7 +14,11 @@ namespace MetricsManager.Clients
         private readonly string _baseUrl;
         private readonly ILogger<MetricsAgentClient> _logger;
 
-        public MetricsAgentClient(HttpClient httpClient, IHttpClientFactory clientFactory, IConfiguration configuration, ILogger<MetricsAgentClient> logger)
+        public MetricsAgentClient(
+            HttpClient httpClient, 
+            IHttpClientFactory clientFactory, 
+            IConfiguration configuration, 
+            ILogger<MetricsAgentClient> logger)
         {
             _httpClient = httpClient;
             _baseUrl = configuration.GetValue<string>("AgentBaseUrl");

@@ -15,5 +15,7 @@ namespace Core.Interfaces
         void Update(T item);
 
         void Delete(int id);
+
+        IList<T> GetFromDate(long fromTime);
     }
 }

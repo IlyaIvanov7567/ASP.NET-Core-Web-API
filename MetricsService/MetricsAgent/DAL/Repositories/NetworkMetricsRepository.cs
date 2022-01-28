@@ -53,6 +53,20 @@ namespace MetricsAgent.DAL.Repositories
                     .ToList();
             }
         }
+        
+        public IList<NetworkMetric> GetFromDate(long fromTime)
+        {
+            using (var connection = new SQLiteConnection(ConnectionString))
+            {
+                return connection
+                    .Query<NetworkMetric>("SELECT Id, Time, Value FROM cpumetrics WHERE time>@fromTime;",
+                        new
+                        {
+                            fromTime = fromTime,
+                        })
+                    .ToList();
+            }
+        }
 
         public IList<NetworkMetric> GetAll()
         {

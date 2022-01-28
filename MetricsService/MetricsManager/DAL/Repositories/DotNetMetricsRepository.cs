@@ -38,15 +38,7 @@ namespace MetricsManager.DAL.Repositories
                     new { id = id });
             }
         }
-                
-        public IList<DotNetMetric> GetAll()
-        {
-            using (var connection = new SQLiteConnection(ConnectionString))
-            {
-                return connection.Query<DotNetMetric>("SELECT Id, Time, Value FROM dotnetmetrics").ToList();
-            }
-        }
-        
+            
         public IList<DotNetMetric> GetByInterval(long fromTime, long toTime)
         {
             using (var connection = new SQLiteConnection(ConnectionString))
@@ -62,6 +54,28 @@ namespace MetricsManager.DAL.Repositories
             }
         }
         
+        public IList<DotNetMetric> GetFromDate(long fromTime)
+        {
+            using (var connection = new SQLiteConnection(ConnectionString))
+            {
+                return connection
+                    .Query<DotNetMetric>("SELECT Id, Time, Value FROM cpumetrics WHERE time>@fromTime;",
+                        new
+                        {
+                            fromTime = fromTime,
+                        })
+                    .ToList();
+            }
+        }
+        
+        public IList<DotNetMetric> GetAll()
+        {
+            using (var connection = new SQLiteConnection(ConnectionString))
+            {
+                return connection.Query<DotNetMetric>("SELECT Id, Time, Value FROM dotnetmetrics").ToList();
+            }
+        }
+
         public void Update(DotNetMetric item)
         {
             using (var connection = new SQLiteConnection(ConnectionString))

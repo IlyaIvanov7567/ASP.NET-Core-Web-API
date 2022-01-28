@@ -5,8 +5,6 @@ using Core;
 using Core.DAL.Models;
 using Core.Interfaces;
 using Dapper;
-using MetricsAgent.DAL;
-
 
 namespace MetricsManager.DAL.Repositories
 {
@@ -51,6 +49,20 @@ namespace MetricsManager.DAL.Repositories
                         {
                             fromTime = fromTime, 
                             toTime = toTime
+                        })
+                    .ToList();
+            }
+        }
+        
+        public IList<CpuMetric> GetFromDate(long fromTime)
+        {
+            using (var connection = new SQLiteConnection(ConnectionString))
+            {
+                return connection
+                    .Query<CpuMetric>("SELECT Id, Time, Value FROM cpumetrics WHERE time>@fromTime;",
+                        new
+                        {
+                            fromTime = fromTime,
                         })
                     .ToList();
             }
