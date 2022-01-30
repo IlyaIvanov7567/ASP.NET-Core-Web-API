@@ -24,8 +24,8 @@ namespace MetricsManagerTests
         {
             //Arrange
             var agentId = 1;
-            var fromTime = TimeSpan.FromSeconds(0);
-            var toTime = TimeSpan.FromSeconds(100);
+            var fromTime = DateTime.Now.Ticks;
+            var toTime = DateTime.Now.Ticks + 100;
 
             //Act
             var result = _controller.GetMetricsFromAgent(fromTime, toTime);

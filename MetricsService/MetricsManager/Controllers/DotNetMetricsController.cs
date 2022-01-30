@@ -21,7 +21,7 @@ namespace MetricsManager.Controllers
         }
         
         [HttpGet("from/{fromTime}/to/{toTime}")]
-        public IActionResult GetMetricsFromAgent([FromRoute] TimeSpan fromTime, [FromRoute] TimeSpan toTime)
+        public IActionResult GetMetricsFromAgent([FromRoute] long fromTime, [FromRoute] long toTime)
         {
             var response = metricsAgentClient.GetDotNetMetrics(new MetricGetRequest<DotNetMetric>(fromTime, toTime));
 

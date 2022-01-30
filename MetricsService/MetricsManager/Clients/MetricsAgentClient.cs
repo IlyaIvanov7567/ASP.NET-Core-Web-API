@@ -15,9 +15,9 @@ namespace MetricsManager.Clients
         private readonly ILogger<MetricsAgentClient> _logger;
 
         public MetricsAgentClient(
-            HttpClient httpClient, 
-            IHttpClientFactory clientFactory, 
-            IConfiguration configuration, 
+            HttpClient httpClient,
+            IHttpClientFactory clientFactory,
+            IConfiguration configuration,
             ILogger<MetricsAgentClient> logger)
         {
             _httpClient = httpClient;
@@ -55,7 +55,7 @@ namespace MetricsManager.Clients
                 $"{_baseUrl}/api/metrics/hdd/getbyinterval/from/{request.FromTime}/to/{request.ToTime}");
 
             requestMessage.Headers.Add("Accept", "application/vnd.github.v3+json");
-            
+
             var responseMessage = _httpClient.SendAsync(requestMessage).Result;
 
             if (responseMessage.IsSuccessStatusCode)
@@ -120,7 +120,7 @@ namespace MetricsManager.Clients
 
             return null;
         }
-        
+
         public MetricsResponse<NetworkMetric> GetNetworkMetrics(MetricGetRequest<NetworkMetric> request)
         {
             var requestMessage = new HttpRequestMessage(HttpMethod.Get,

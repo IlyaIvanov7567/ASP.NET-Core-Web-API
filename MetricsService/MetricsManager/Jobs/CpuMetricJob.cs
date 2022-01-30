@@ -33,18 +33,18 @@ namespace MetricsManager.Jobs
 
         public Task Execute(IJobExecutionContext context)
         {
-            TimeSpan lastsynctime = GetLastSyncTime();
+            long lastsynctime = GetLastSyncTime();
             
-            TimeSpan GetLastSyncTime()
+            long GetLastSyncTime()
             {
                 using (var connection = new SQLiteConnection(ConnectionString))
                 {
-                    CpuMetric lastsynctime = connection.QuerySingle<CpuMetric>("SELECT time FROM cpumetrics order by time desc limit 1");
-                    return lastsynctime.Time;
+                    long lastsynctime = connection.QuerySingle<long>("SELECT time FROM cpumetrics order by time desc limit 1");
+                    return lastsynctime;
                 }
             }
 
-            var response = _agentClient.GetCpuMetrics(new MetricGetRequest<CpuMetric>(lastsynctime, TimeSpan.FromTicks(DateTime.Now.Ticks)));
+            var response = _agentClient.GetCpuMetrics(new MetricGetRequest<CpuMetric>(lastsynctime, DateTime.Now.Ticks));
 
             foreach (var metricDto in response.Metrics)
             {

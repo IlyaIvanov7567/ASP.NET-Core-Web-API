@@ -4,13 +4,13 @@ namespace Core.DAL.Requests
 {
     public class MetricGetRequest<T>
     {
-        public MetricGetRequest(TimeSpan fromTime, TimeSpan toTime)
+        public MetricGetRequest(long fromTime, long toTime)
         {
             FromTime = fromTime;
             ToTime = toTime;
         }
-        public TimeSpan FromTime { get; private set; }
+        public long FromTime { get; private set; }
        
-        public TimeSpan ToTime { get; private set; }
+        public long ToTime { get; private set; }
     }
 }
