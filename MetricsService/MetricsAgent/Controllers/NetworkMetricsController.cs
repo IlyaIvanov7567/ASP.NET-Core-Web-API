@@ -11,7 +11,7 @@ using Core.Interfaces;
 
 namespace MetricsAgent.Controllers
 {
-    [Route("api/metrics/network")]
+    [Route("api/metricsagent/network")]
     [ApiController]
     public class NetworkMetricsController : ControllerBase
     {

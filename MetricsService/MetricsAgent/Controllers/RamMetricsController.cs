@@ -11,7 +11,7 @@ using Core.Interfaces;
 
 namespace MetricsAgent.Controllers
 {
-    [Route("api/metrics/ram")]
+    [Route("api/metricsagent/ram")]
     [ApiController]
     public class RamMetricsController : ControllerBase
     {

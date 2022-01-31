@@ -28,7 +28,7 @@ namespace MetricsManager.Clients
         public MetricsResponse<CpuMetric> GetCpuMetrics(MetricGetRequest<CpuMetric> request)
         {
             var requestMessage = new HttpRequestMessage(HttpMethod.Get,
-                $"{_baseUrl}/api/metrics/cpu/getbyinterval/from/{request.FromTime}/to/{request.ToTime}");
+                $"{_baseUrl}/api/metricsagent/cpu/getbyinterval/from/{request.FromTime}/to/{request.ToTime}");
 
             requestMessage.Headers.Add("Accept", "application/vnd.github.v3+json");
 

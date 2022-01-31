@@ -11,7 +11,7 @@ using Core.Interfaces;
 
 namespace MetricsAgent.Controllers
 {
-    [Route("api/metrics/hdd")]
+    [Route("api/metricsagent/hdd")]
     [ApiController]
     public class HddMetricsController : ControllerBase
     {

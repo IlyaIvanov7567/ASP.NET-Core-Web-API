@@ -2,6 +2,10 @@ using MetricsManager.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Net.Http;
+using AutoMapper;
+using Core.DAL.Models;
+using Core.Interfaces;
+using MetricsManager.Clients;
 using Xunit;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -13,11 +17,21 @@ namespace MetricsManagerTests
         private readonly CpuMetricsController _controller;
         private readonly Mock<ILogger<CpuMetricsController>> _loggerMock;
         private readonly Mock<IHttpClientFactory> _clientFactoryMock;
+        private readonly Mock<IMapper> _mapperMock;
+        private readonly Mock<IRepository<CpuMetric>> _repositoryMock;
+        private readonly Mock<IMetricsAgentClient> _agenClientMock;
 
         public CpuMetricsControllerUnitTests()
         {
+            _agenClientMock = new Mock<IMetricsAgentClient>();
+            _repositoryMock = new Mock<IRepository<CpuMetric>>();
+            _mapperMock = new Mock<IMapper>();
             _loggerMock = new Mock<ILogger<CpuMetricsController>>();
-            _controller = new CpuMetricsController(_loggerMock.Object);
+            _controller = new CpuMetricsController(
+                _loggerMock.Object, 
+                _mapperMock.Object, 
+                _repositoryMock.Object,
+                _agenClientMock.Object);
         }
 
         [Fact]
@@ -32,6 +46,17 @@ namespace MetricsManagerTests
             var result = _controller.GetMetricsFromAgent(fromTime, toTime);
 
             // Assert
+            _ = Assert.IsAssignableFrom<IActionResult>(result);
+        }
+
+        [Fact]
+        public void GetMetricsByInterval_ReturnsOk()
+        {
+            var fromTime = DateTime.Now.Ticks;
+            var toTime = DateTime.Now.Ticks + 100;
+
+            var result = _controller.GetByInterval(fromTime, toTime);
+            
             _ = Assert.IsAssignableFrom<IActionResult>(result);
         }
     }
