@@ -11,17 +11,17 @@ namespace MetricsAgent.Jobs
     {
         private readonly IRepository<HddMetric> _repository;
         
-        private readonly PerformanceCounter _perfomanceCounter;
+        private readonly PerformanceCounter _performanceСounter;
         
         public HddMetricJob(IRepository<HddMetric> repository)
         {
             _repository = repository;
-            _perfomanceCounter = new PerformanceCounter("PhysicalDisk", "Disk Read Bytes/sec", "_Total");
+            _performanceСounter = new PerformanceCounter("PhysicalDisk", "Disk Read Bytes/sec", "_Total");
         }
 
         public Task Execute(IJobExecutionContext context)
         {
-            var diskReadInBytesPerSec = Convert.ToInt32(_perfomanceCounter.NextValue());
+            var diskReadInBytesPerSec = Convert.ToInt32(_performanceСounter.NextValue());
             
             var time = TimeSpan.FromSeconds(DateTimeOffset.UtcNow.ToUnixTimeSeconds());
 

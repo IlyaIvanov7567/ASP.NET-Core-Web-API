@@ -11,17 +11,17 @@ namespace MetricsAgent.Jobs
     {
         private readonly IRepository<CpuMetric> _repository;
         
-        private readonly PerformanceCounter _perfomanceCounter;
+        private readonly PerformanceCounter _performanceСounter;
         
         public CpuMetricJob(IRepository<CpuMetric> repository)
         {
             _repository = repository;
-            _perfomanceCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total");
+            _performanceСounter = new PerformanceCounter("Processor", "% Processor Time", "_Total");
         }
 
         public Task Execute(IJobExecutionContext context)
         {
-            var cpuUsageInPercents = Convert.ToInt32(_perfomanceCounter.NextValue());
+            var cpuUsageInPercents = Convert.ToInt32(_performanceСounter.NextValue());
             
             var time = TimeSpan.FromSeconds(DateTimeOffset.UtcNow.ToUnixTimeSeconds());
 

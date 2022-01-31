@@ -11,17 +11,17 @@ namespace MetricsAgent.Jobs
     {
         private readonly IRepository<RamMetric> _repository;
         
-        private readonly PerformanceCounter _perfomanceCounter;
+        private readonly PerformanceCounter _performanceСounter;
         
         public RamMetricJob(IRepository<RamMetric> repository)
         {
             _repository = repository;
-            _perfomanceCounter = new PerformanceCounter("Memory", "Available MBytes");
+            _performanceСounter = new PerformanceCounter("Memory", "Available MBytes");
         }
 
         public Task Execute(IJobExecutionContext context)
         {
-            var ramAvailable = Convert.ToInt32(_perfomanceCounter.NextValue());
+            var ramAvailable = Convert.ToInt32(_performanceСounter.NextValue());
             
             var time = TimeSpan.FromSeconds(DateTimeOffset.UtcNow.ToUnixTimeSeconds());
 

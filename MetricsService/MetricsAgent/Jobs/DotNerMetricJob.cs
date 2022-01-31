@@ -11,18 +11,18 @@ namespace MetricsAgent.Jobs
     {
         private readonly IRepository<DotNetMetric> _repository;
         
-        private readonly PerformanceCounter _perfomanceCounter;
+        private readonly PerformanceCounter _performanceСounter;
         
         public DotNetMetricJob(IRepository<DotNetMetric> repository)
         {
             _repository = repository;
             
-            _perfomanceCounter = new PerformanceCounter(".NET CLR Memory", "# bytes in all heaps", Process.GetCurrentProcess().ProcessName);
+            _performanceСounter = new PerformanceCounter(".NET CLR Memory", "# bytes in all heaps", Process.GetCurrentProcess().ProcessName);
         }
 
         public Task Execute(IJobExecutionContext context)
         {
-            var heapUsageInBytes = Convert.ToInt32(_perfomanceCounter.NextValue());
+            var heapUsageInBytes = Convert.ToInt32(_performanceСounter.NextValue());
             
             var time = TimeSpan.FromSeconds(DateTimeOffset.UtcNow.ToUnixTimeSeconds());
 

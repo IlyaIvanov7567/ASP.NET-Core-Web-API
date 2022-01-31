@@ -24,13 +24,13 @@ namespace MetricsAgent.Jobs
 
             int bytesPerSecReceivedTotal = 0;
 
-            PerformanceCounter perfomanceCounter;
+            PerformanceCounter _performanceСounter;
 
             foreach (var item in instancename)
             {
-                perfomanceCounter = new PerformanceCounter("Network Interface", "Bytes Received/sec", item);
+                _performanceСounter = new PerformanceCounter("Network Interface", "Bytes Received/sec", item);
 
-                bytesPerSecReceivedTotal += Convert.ToInt32(perfomanceCounter.NextValue());
+                bytesPerSecReceivedTotal += Convert.ToInt32(_performanceСounter.NextValue());
             }
 
             var time = TimeSpan.FromSeconds(DateTimeOffset.UtcNow.ToUnixTimeSeconds());
